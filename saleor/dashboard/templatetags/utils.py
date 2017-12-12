@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+import json
 
 from django import forms
 from django.template import Library
@@ -107,3 +108,13 @@ def add_filters(context, filter_set, sort_by_filter_name='sort_by'):
     return {
         'chips': chips, 'filter': filter_set, 'count': filter_set.qs.count(),
         'sort_by': request_get.get(sort_by_filter_name, None)}
+
+
+@register.simple_tag(takes_context=True)
+def serialize_messages(context):
+    """Serialize django.contrib.messages to JSON"""
+    messages = context.get('messages', [])
+    data = {}
+    for i, message in enumerate(messages):
+        data[i] = str(message)
+    return json.dumps(data)
