@@ -24,7 +24,7 @@ ROOT_URLCONF = 'saleor.urls'
 WSGI_APPLICATION = 'saleor.wsgi.application'
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Entrealgodones', 'entrealgodonessj@gmail.com'),
 )
 MANAGERS = ADMINS
 
@@ -38,8 +38,9 @@ CACHES = {'default': django_cache_url.config()}
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgres://saleor:saleor@localhost:5432/saleor',
-        conn_max_age=600)}
+        default='postgres://tirso.rodriguez:saleor@localhost:5432/saleor',
+        conn_max_age=600)
+}
 
 
 TIME_ZONE = 'America/Chicago'
@@ -272,8 +273,8 @@ AUTH_USER_MODEL = 'account.User'
 
 LOGIN_URL = '/account/login/'
 
-DEFAULT_COUNTRY = 'US'
-DEFAULT_CURRENCY = 'USD'
+DEFAULT_COUNTRY = 'ES'
+DEFAULT_CURRENCY = 'EUR'
 DEFAULT_DECIMAL_PLACES = get_currency_fraction(DEFAULT_CURRENCY)
 AVAILABLE_CURRENCIES = [DEFAULT_CURRENCY]
 
@@ -300,13 +301,17 @@ PAYMENT_HOST = get_host
 PAYMENT_MODEL = 'order.Payment'
 
 PAYMENT_VARIANTS = {
-    'default': ('payments.dummy.DummyProvider', {})}
+    'default': ('payments.dummy.DummyProvider', {}),
+    'stripe': ('payments.stripe.StripeProvider', {
+        'secret_key': 'sk_test_VR5L91wKEHz2UpsSOKXKrUGr',
+        'public_key': 'pk_test_cFUg636P8Hfb6HoFbe42lnqu'})}
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 CHECKOUT_PAYMENT_CHOICES = [
-    ('default', 'Dummy provider')]
+    ('default', 'Dummy provider'),
+    ('stripe', 'Stripe'), ]
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'}
